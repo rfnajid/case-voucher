@@ -1,6 +1,5 @@
-import { PurchaseEntity } from "src/modules/purchase/entities/purchase.entity";
 import { VoucherEntity } from "src/modules/voucher/entities/voucher.entity";
-import { BaseEntity, Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ name: 'customers' })
 export class CustomerEntity extends BaseEntity {
@@ -31,9 +30,7 @@ export class CustomerEntity extends BaseEntity {
   @Column()
   updatedAt: Date;
 
-  @OneToMany(type => PurchaseEntity, purchase => purchase.customer)
-  purchases: PurchaseEntity[];
-
   @OneToOne(type => VoucherEntity, voucher => voucher.customer)
+  @JoinColumn()
   voucher: VoucherEntity;
 }

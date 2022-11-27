@@ -2,12 +2,15 @@ import { Controller, Get, Param, Post, Req, UploadedFiles, UseInterceptors } fro
 import { FileInterceptor } from "@nestjs/platform-express";
 import { ApiTags } from "@nestjs/swagger";
 import { Request } from 'express';
+import { BasicResponseDTO } from "src/shared/dtos/basic-response.dto";
+import {VoucherService} from './voucher.service';
 
 
 @ApiTags('Vouchers')
 @Controller()
 export class VoucherController {
-    constructor(){
+
+    constructor(private voucherService: VoucherService){
 
     }
 
@@ -16,9 +19,9 @@ export class VoucherController {
         return "testtt";
     }
 
-    @Get('check/:id')
-    eligebleChecking(@Param('id') id: number){
-        return 'eligble';
+    @Get('check/:customerId')
+    async eligebleChecking(@Param('customerId') customerId: number) : Promise<BasicResponseDTO>{
+        return await this.voucherService.isEligible(customerId);
     }
 
     @Post('validation')

@@ -5,25 +5,9 @@ import { AppModule } from './modules/app/app.module';
 const envPath = process.env.NODE_ENV ? '.env.' + process.env.NODE_ENV : '.env';
 require('dotenv').config({ path: envPath });
 
-/**
- * The endpoint for open api ui
- * @type {string}
- */
 export const SWAGGER_API_ROOT = 'swagger';
-/**
- * The name given to the api
- * @type {string}
- */
 export const SWAGGER_API_NAME = 'API';
-/**
- * A short description for api
- * @type {string}
- */
-export const SWAGGER_API_DESCRIPTION = 'API Description';
-/**
- * Current version of the api
- * @type {string}
- */
+export const SWAGGER_API_DESCRIPTION = 'API Vouchers Documentation';
 export const SWAGGER_API_CURRENT_VERSION = '1.0';
 
 async function bootstrap() {
@@ -37,7 +21,6 @@ async function bootstrap() {
     .setTitle(SWAGGER_API_NAME)
     .setDescription(SWAGGER_API_DESCRIPTION)
     .setVersion(SWAGGER_API_CURRENT_VERSION)
-    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup(SWAGGER_API_ROOT, app, document);

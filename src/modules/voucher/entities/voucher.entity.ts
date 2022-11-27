@@ -1,14 +1,17 @@
 import { CustomerEntity } from 'src/modules/customer/entities/customer.entity';
-import { BaseEntity, Column, Entity, OneToOne, PrimaryColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, JoinColumn, OneToOne, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'vouchers' })
 export class VoucherEntity extends BaseEntity {
   
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn()
   id: number;
-  
+
   @Column()
   code: string;
+  
+  @Column()
+  customerId: number;
   
   @Column()
   status: number;
@@ -20,6 +23,7 @@ export class VoucherEntity extends BaseEntity {
   expiredAt: Date;
 
   @OneToOne(type => CustomerEntity, customer => customer.voucher)
+  @JoinColumn()
   customer: CustomerEntity;
 
 }
