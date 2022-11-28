@@ -1,8 +1,9 @@
-import { Controller, Get, Param, Post, Req, UploadedFiles, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Req, UploadedFile, UploadedFiles, UseInterceptors } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiConsumes, ApiTags } from "@nestjs/swagger";
 import { Request } from 'express';
 import { BasicResponseDTO } from "src/shared/dtos/basic-response.dto";
+import { ValidationRequestDTO } from "./dtos/validation-request.dto";
 import {VoucherService} from './voucher.service';
 
 
@@ -10,27 +11,24 @@ import {VoucherService} from './voucher.service';
 @Controller()
 export class VoucherController {
 
-    constructor(private voucherService: VoucherService){
+    constructor(
+      private voucherService: VoucherService
+    ){}
 
-    }
-
-    @Get()
-    test(){
-        return "testtt";
-    }
-
-    @Get('check/:customerId')
-    async eligebleChecking(@Param('customerId') customerId: number) : Promise<BasicResponseDTO>{
-        return await this.voucherService.isEligible(customerId);
+    @Get('book/:customerId')
+    async bookVoucher(@Param('customerId') customerId: number) : Promise<BasicResponseDTO>{
+        return await this.voucherService.bookVoucher(customerId);
     }
 
     @Post('validation')
+    @ApiConsumes('multipart/form-data')
     @UseInterceptors(FileInterceptor('file'))
     async submit(
       @Req() req: Request,
-      @UploadedFiles() files: Express.Multer.File[],
-    ) {
-  
-      return "photo validation";
+      @UploadedFile() file: Express.Multer.File,
+      @Body() requestDTO : ValidationRequestDTO
+    ): Promise<BasicResponseDTO>{
+    
+      return await this.voucherService.photoValidation(requestDTO, file);
     }
 }

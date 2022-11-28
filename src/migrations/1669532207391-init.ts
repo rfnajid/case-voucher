@@ -153,7 +153,7 @@ export class init1669532207391 implements MigrationInterface {
                     {
                         name: "expired_at",
                         type: "timestamp",
-                        isNullable: true,
+                        isNullable: false,
                         default: "now()"
                     },
                 ],
