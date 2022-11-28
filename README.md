@@ -43,7 +43,8 @@
 
 ### Run Command
 
-`npm start`
+`npm start` : to run app
+`npm run test`: to run testing
 
 ### Dependencies
 - @nestjs

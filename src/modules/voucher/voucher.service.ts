@@ -1,14 +1,14 @@
 import { Injectable } from "@nestjs/common";
 import * as moment from "moment";
 import * as FormData from "form-data";
-import { EnvConfigService } from "src/shared/config/env-config.service";
-import { STATUS } from "src/shared/const/status.const";
-import { BasicResponseDTO } from "src/shared/dtos/basic-response.dto";
+import { EnvConfigService } from "../../shared/config/env-config.service";
+import { STATUS } from "../../shared/const/status.const";
+import { BasicResponseDTO } from "../../shared/dtos/basic-response.dto";
 import { DataSource, LessThan, LessThanOrEqual, MoreThan, Not, Repository } from "typeorm";
 import { CustomerService } from "../customer/customer.service";
 import { ValidationRequestDTO } from "./dtos/validation-request.dto";
 import { VoucherEntity } from "./entities/voucher.entity";
-import { PhotoValidationService } from "src/shared/http/photo-validation.service";
+import { PhotoValidationService } from "../../shared/http/photo-validation.service";
 
 @Injectable()
 export class VoucherService {
@@ -56,8 +56,6 @@ export class VoucherService {
     
     const queryRes = await this.getVoucherByCustomerIdAndNotExpiredYet(customerId);
 
-    console.log('queryRes',queryRes);
-
     return (!queryRes);
   }
 
@@ -70,11 +68,8 @@ export class VoucherService {
    */
   public async isAllEligible(customerId: number): Promise<boolean>{
     const customerEligible: boolean = await this.customerService.isEligible(customerId);
-    console.log('isEligible, customer : ', customerEligible);
     
     const voucherEligible: boolean = await this.isVoucherEligible(customerId);
-    
-    console.log('isEligible, voucher', voucherEligible);
 
     return customerEligible && voucherEligible;
   }
@@ -108,8 +103,6 @@ export class VoucherService {
     voucher.expiredAt = moment().add(10,"minutes").toDate();
 
     const saveRes = await this.vRepo.save(voucher);
-
-    console.log('saveRes', saveRes);
 
     return new BasicResponseDTO(saveRes ? true: false);
   }

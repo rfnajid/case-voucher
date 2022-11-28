@@ -1,5 +1,5 @@
-import { VoucherEntity } from "src/modules/voucher/entities/voucher.entity";
-import { BaseEntity, Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { VoucherEntity } from "../../../../src/modules/voucher/entities/voucher.entity";
+import { BaseEntity, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ name: 'customers' })
 export class CustomerEntity extends BaseEntity {
